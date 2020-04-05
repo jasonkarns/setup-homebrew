@@ -1,5 +1,6 @@
 const path = require('path')
 const core = require('@actions/core')
+const { exec } = require('@actions/exec')
 const tools = require('@actions/tool-cache')
 
 const TOOL_NAME = 'homebrew'
@@ -12,6 +13,10 @@ module.exports = {
     core.addPath(path.join(await toolPath, 'bin'))
 
     return toolPath
+  },
+
+  installTaps: async function (taps) {
+    return Promise.all(normalizeTapNames(taps).map(t => exec(`brew tap ${t}`)))
   }
 }
 
@@ -23,4 +28,8 @@ async function downloadHomebrew (version) {
     .then(tarballPath => tools.extractTar(tarballPath))
     .then(extractedPath => `${extractedPath}/brew-${version}`)
     .then(brewPath => tools.cacheDir(brewPath, TOOL_NAME, version))
+}
+
+function normalizeTapNames (taps) {
+  return (taps || '').split(',').map(t => (t.match('/') ? t : `homebrew/${t}`))
 }

@@ -4,6 +4,9 @@ inputs:
   brew-version:
     description: The version of homebrew to install
     default: master
+  taps:
+    description: Comma-separated list of taps to install
+    default: homebrew/core
 runs:
   using: node12
   main: dist/index.js

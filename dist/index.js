@@ -2952,6 +2952,7 @@ function escape(s) {
 
 const path = __webpack_require__(622)
 const core = __webpack_require__(470)
+const { exec } = __webpack_require__(986)
 const tools = __webpack_require__(533)
 
 const TOOL_NAME = 'homebrew'
@@ -2964,6 +2965,10 @@ module.exports = {
     core.addPath(path.join(await toolPath, 'bin'))
 
     return toolPath
+  },
+
+  installTaps: async function (taps) {
+    return Promise.all(normalizeTapNames(taps).map(t => exec(`brew tap ${t}`)))
   }
 }
 
@@ -2975,6 +2980,10 @@ async function downloadHomebrew (version) {
     .then(tarballPath => tools.extractTar(tarballPath))
     .then(extractedPath => `${extractedPath}/brew-${version}`)
     .then(brewPath => tools.cacheDir(brewPath, TOOL_NAME, version))
+}
+
+function normalizeTapNames (taps) {
+  return (taps || '').split(',').map(t => (t.match('/') ? t : `homebrew/${t}`))
 }
 
 
@@ -4421,16 +4430,16 @@ function isUnixExecutable(stats) {
 
 const core = __webpack_require__(470)
 const { exec } = __webpack_require__(986)
-const { installHomebrew } = __webpack_require__(449)
-
-function run () {
-  return installHomebrew(core.getInput('brew-version')).then(() => {
-    exec('brew help') // ensures bottled ruby is available
-  })
-}
+const { installHomebrew, installTaps } = __webpack_require__(449)
 
 module.exports = run()
 module.exports.catch(err => core.setFailed(err.message))
+
+function run () {
+  return installHomebrew(core.getInput('brew-version'))
+    .then(() => exec('brew help')) // ensures bottled ruby is available
+    .then(() => installTaps(core.getInput('taps')))
+}
 
 
 /***/ }),
