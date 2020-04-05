@@ -13,7 +13,7 @@
   "bugs": {
     "url": "https://github.com/jasonkarns/setup-homebrew/issues"
   },
-  "main": "index.js",
+  "main": "src",
   "scripts": {
     "clean": "git checkout -- dist",
     "lint": "standard --fix",
@@ -25,7 +25,8 @@
     "postversion": "git push --follow-tags"
   },
   "dependencies": {
-    "@actions/core": "^1.1.1"
+    "@actions/core": "^1.1.1",
+    "@actions/tool-cache": "^1.3.3"
   },
   "devDependencies": {
     "@zeit/ncc": "^0.20.5",
