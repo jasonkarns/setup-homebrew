@@ -1,34 +1,44 @@
 {
-  "name": "javascript-action",
+  "name": "@jasonkarns/setup-homebrew",
   "version": "1.0.0",
-  "description": "JavaScript Action Template",
-  "main": "index.js",
-  "scripts": {
-    "lint": "eslint index.js",
-    "package": "ncc build index.js -o dist",
-    "test": "eslint index.js && jest"
-  },
+  "private": true,
+  "description": "Sets up Homebrew for use in subsequent steps",
+  "homepage": "https://github.com/actions/javascript-action#readme",
+  "license": "MIT",
+  "author": "Jason Karns <jason.karns@gmail.com> (http://jasonkarns.com)",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/javascript-action.git"
+    "url": "git+https://github.com/jasonkarns/setup-homebrew.git"
   },
-  "keywords": [
-    "GitHub",
-    "Actions",
-    "JavaScript"
-  ],
-  "author": "GitHub",
-  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/actions/javascript-action/issues"
+    "url": "https://github.com/jasonkarns/setup-homebrew/issues"
   },
-  "homepage": "https://github.com/actions/javascript-action#readme",
+  "main": "index.js",
+  "scripts": {
+    "clean": "git checkout -- dist",
+    "lint": "standard --fix",
+    "test": "teenytest",
+    "posttest": "npm run lint",
+    "prepare": "ncc build",
+    "preversion": "npm run prepare && test master = $(git symbolic-ref --short HEAD)",
+    "version": "git add -- dist",
+    "postversion": "git push --follow-tags"
+  },
   "dependencies": {
     "@actions/core": "^1.1.1"
   },
   "devDependencies": {
     "@zeit/ncc": "^0.20.5",
-    "eslint": "^6.3.0",
-    "jest": "^24.9.0"
+    "prettier-standard": "^16.2.1",
+    "standard": "^14.3.3",
+    "teenytest": "^5.3.0"
+  },
+  "keywords": [
+    "GitHub",
+    "Actions",
+    "Homebrew"
+  ],
+  "standard": {
+    "ignore": "dist"
   }
 }
