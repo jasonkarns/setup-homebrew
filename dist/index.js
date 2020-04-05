@@ -4420,12 +4420,13 @@ function isUnixExecutable(stats) {
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
 const core = __webpack_require__(470)
+const { exec } = __webpack_require__(986)
 const { installHomebrew } = __webpack_require__(449)
 
 function run () {
-  return Promise.resolve().then(() =>
-    installHomebrew(core.getInput('brew-version'))
-  )
+  return installHomebrew(core.getInput('brew-version')).then(() => {
+    exec('brew help') // ensures bottled ruby is available
+  })
 }
 
 module.exports = run()

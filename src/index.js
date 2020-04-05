@@ -1,10 +1,11 @@
 const core = require('@actions/core')
+const { exec } = require('@actions/exec')
 const { installHomebrew } = require('./installer')
 
 function run () {
-  return Promise.resolve().then(() =>
-    installHomebrew(core.getInput('brew-version'))
-  )
+  return installHomebrew(core.getInput('brew-version')).then(() => {
+    exec('brew help') // ensures bottled ruby is available
+  })
 }
 
 module.exports = run()

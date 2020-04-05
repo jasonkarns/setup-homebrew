@@ -16,5 +16,4 @@ jobs:
     - uses: ./
       with:
         brew-version: 2.2.11
-    - run: brew --env
-    - run: brew help
+    - run: brew --version
