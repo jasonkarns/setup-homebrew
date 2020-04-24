@@ -43,5 +43,8 @@ async function downloadHomebrew (version) {
 }
 
 function normalizeTapNames (taps) {
-  return (taps || '').split(',').map(t => (t.match('/') ? t : `homebrew/${t}`))
+  return (taps || '')
+    .split(',')
+    .map(t => t.trim())
+    .map(t => (t.match('/') ? t : `homebrew/${t}`))
 }
