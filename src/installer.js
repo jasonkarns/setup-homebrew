@@ -1,6 +1,6 @@
-const { execSync } = require('child_process')
 const path = require('path')
 const core = require('@actions/core')
+const { exec } = require('@actions/exec')
 const tools = require('@actions/tool-cache')
 
 const TOOL_NAME = 'homebrew'
@@ -9,7 +9,7 @@ module.exports = {
   installHomebrew: async function (version) {
     // If homebrew is already available and a specific version isn't requested
     // just quit early.
-    if (version === 'master' && homebrewAvailable()) return
+    if (version === 'master' && (await homebrewAvailable())) return
 
     const toolPath = version === 'master' ? gitClone() : toolCache(version)
 
@@ -21,25 +21,21 @@ module.exports = {
 
   installTaps: async function (taps) {
     return Promise.all(
-      normalizeTapNames(taps).map(t => execSync(`brew tap --shallow ${t}`))
+      normalizeTapNames(taps).map(t => exec(`brew tap --shallow ${t}`))
     )
   }
 }
 
-function homebrewAvailable () {
-  try {
-    execSync('command -v brew')
-    return true
-  } catch {
-    return false
-  }
+async function homebrewAvailable () {
+  return exec('command -v brew').then(
+    () => true,
+    () => false
+  )
 }
 
 async function gitClone () {
   const prefix = `${process.env.HOME}/Homebrew`
-  await execSync(
-    `git clone --depth=1 https://github.com/Homebrew/brew ${prefix}`
-  )
+  await exec(`git clone --depth=1 https://github.com/Homebrew/brew ${prefix}`)
   return prefix
 }
 
