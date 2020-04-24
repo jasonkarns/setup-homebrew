@@ -9,6 +9,8 @@ This action sets up homebrew for use in actions by:
 
 Homebrew is already available out of the box on GitHub's macOS runners, so this action is primarily useful for jobs that will run within a build matrix supporting both macOS and Ubuntu. (This action does not support Windows runners.)
 
+setup-homebrew will now leverage the "built-in" version of homebrew on macOS runners unless a `brew-version` is explicitly requested. This is an optimization to avoid cloning a second copy of homebrew when it's already available. However, if you need to ensure homebrew is absolutely at the latest edge version, you may want to run `brew update-reset` after this action completes.
+
 ## Usage
 
 Refer to [action.yml](action.yml)
