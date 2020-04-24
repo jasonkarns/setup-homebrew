@@ -1,6 +1,6 @@
+const { execSync } = require('child_process')
 const path = require('path')
 const core = require('@actions/core')
-const { exec } = require('@actions/exec')
 const tools = require('@actions/tool-cache')
 
 const TOOL_NAME = 'homebrew'
@@ -17,14 +17,16 @@ module.exports = {
 
   installTaps: async function (taps) {
     return Promise.all(
-      normalizeTapNames(taps).map(t => exec(`brew tap --shallow ${t}`))
+      normalizeTapNames(taps).map(t => execSync(`brew tap --shallow ${t}`))
     )
   }
 }
 
 async function gitClone () {
   const prefix = `${process.env.HOME}/Homebrew`
-  await exec(`git clone --depth=1 https://github.com/Homebrew/brew ${prefix}`)
+  await execSync(
+    `git clone --depth=1 https://github.com/Homebrew/brew ${prefix}`
+  )
   return prefix
 }
 
