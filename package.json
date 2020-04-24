@@ -2,8 +2,8 @@
   "name": "@jasonkarns/setup-homebrew",
   "version": "1.0.0",
   "private": true,
-  "description": "Sets up Homebrew for use in subsequent steps",
-  "homepage": "https://github.com/actions/javascript-action#readme",
+  "description": "Sets up Homebrew for use in GitHub Actions workflows",
+  "homepage": "https://github.com/jasonkarns/setup-homebrew#readme",
   "license": "MIT",
   "author": "Jason Karns <jason.karns@gmail.com> (http://jasonkarns.com)",
   "repository": {
@@ -20,7 +20,7 @@
     "test": "teenytest",
     "posttest": "npm run lint",
     "prepare": "ncc build",
-    "preversion": "npm run prepare && test master = $(git symbolic-ref --short HEAD)",
+    "preversion": "npm run prepare",
     "version": "git add -- dist",
     "postversion": "git push --follow-tags"
   },
