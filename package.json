@@ -1,6 +1,6 @@
 {
   "name": "@jasonkarns/setup-homebrew",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "description": "Sets up Homebrew for use in subsequent steps",
   "homepage": "https://github.com/actions/javascript-action#readme",
