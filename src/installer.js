@@ -7,6 +7,10 @@ const TOOL_NAME = 'homebrew'
 
 module.exports = {
   installHomebrew: async function (version) {
+    // If homebrew is already available and a specific version isn't requested
+    // just quit early.
+    if (version === 'master' && (await homebrewAvailable())) return
+
     const toolPath = version === 'master' ? gitClone() : toolCache(version)
 
     // prepend bin directory to PATH for future tasks
@@ -20,6 +24,13 @@ module.exports = {
       normalizeTapNames(taps).map(t => exec(`brew tap --shallow ${t}`))
     )
   }
+}
+
+async function homebrewAvailable () {
+  return exec('command -v brew').then(
+    () => true,
+    () => false
+  )
 }
 
 async function gitClone () {
@@ -43,5 +54,8 @@ async function downloadHomebrew (version) {
 }
 
 function normalizeTapNames (taps) {
-  return (taps || '').split(',').map(t => (t.match('/') ? t : `homebrew/${t}`))
+  return (taps || '')
+    .split(',')
+    .map(t => t.trim())
+    .map(t => (t.match('/') ? t : `homebrew/${t}`))
 }
