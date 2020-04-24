@@ -18,6 +18,7 @@ Refer to [action.yml](action.yml)
 
 ```yaml
 - uses: jasonkarns/setup-homebrew
+- run: brew --version # brew is available!
 ```
 
 ### Specific taps
@@ -25,5 +26,6 @@ Refer to [action.yml](action.yml)
 ```yaml
 - uses: jasonkarns/setup-homebrew
   with:
-    taps: nodenv/nodenv
+    taps: core,nodenv/nodenv
+- run: brew tap # outputs homebrew/core and nodenv/nodenv
 ```
