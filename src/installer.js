@@ -21,7 +21,7 @@ module.exports = {
 
   installTaps: async function (taps) {
     return Promise.all(
-      normalizeTapNames(taps).map(t => exec(`brew tap --shallow ${t}`))
+      normalizeTapNames(taps).map(t => exec(`brew tap ${t}`))
     )
   }
 }
