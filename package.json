@@ -1,6 +1,6 @@
 {
   "name": "@jasonkarns/setup-homebrew",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "description": "Sets up Homebrew for use in GitHub Actions workflows",
   "homepage": "https://github.com/jasonkarns/setup-homebrew#readme",
